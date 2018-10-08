@@ -3,12 +3,10 @@ $(async function() {
   const $myInput = $('#myInput');
   const $form = $('#myForm');
   const $inputDisplay = $('#inputDisplay');
-  const $cityDetails = $('#cityDetails');
   const $cityList = $('#cityList');
   const endpoint =
     'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
   const data = await fetchData(endpoint);
-  let $submissionStatus = $('#submissionStatus');
   let cities = convertCityArrayToObject(data);
 
   function convertCityArrayToObject(cityArr) {
@@ -29,7 +27,6 @@ $(async function() {
     const inputStr = $(e.target)
       .find('input')
       .val();
-    // debugger;
     if (isNaN(inputStr) && cities[inputStr]) {
       const cityLi = $('<li>').text(inputStr);
       $cityList.prepend(cityLi);
