@@ -29,13 +29,16 @@ $(async function() {
     const inputStr = $(e.target)
       .find('input')
       .val();
-    const inputNum = +inputStr - 1;
-    if (data[inputNum]) {
-      let city = data[inputNum].city;
-      const cityLi = $('<li>').text(city);
+    let input;
+    // debugger;
+    if (isNaN(inputStr) && cities[inputStr]) {
+      const cityLi = $('<li>').text(inputStr);
+      $cityList.prepend(cityLi);
+    } else if (!isNaN(inputStr) && data[inputStr]) {
+      const cityLi = $('<li>').text(data[+inputStr - 1].city);
       $cityList.prepend(cityLi);
     } else {
-      $submissionStatus.text('Not a valid number of city!');
+      $submissionStatus.text('Could not find city.');
     }
   });
 
