@@ -20,57 +20,9 @@ $(async function() {
   }
 
   $myInput.on('keyup', async e => {
-    const inputStr = $(e.currentTarget).val();
-    if (isNaN(inputStr)) {
-      handleStringInput(inputStr);
-    } else {
-      handleNumericInput(inputStr);
-    }
+    clearInputDisplay();
+    handleInput(e);
   });
-
-  function handleNumericInput(inputStr) {
-    const inputNum = +inputStr - 1;
-    let city;
-    if (data[inputNum]) {
-      city = data[inputNum].city;
-    } else {
-      city = 'No city found';
-    }
-    $inputDisplay.text(city);
-  }
-
-  function handleStringInput(inputStr) {
-    if (cities[inputStr]) {
-      let {
-        city,
-        growth,
-        latitude,
-        longitude,
-        population,
-        rank,
-        state
-      } = cities[inputStr];
-      $inputDisplay.text(`${inputStr} found!`);
-      let $cityP = $('<p>').text(`City: ${city}`);
-      let $rankP = $('<p>').text(`Rank: ${rank}`);
-      let $stateP = $('<p>').text(`State: ${state}`);
-      let $popP = $('<p>').text(`Population: ${population}`);
-      let $latP = $('<p>').text(`Latitude: ${latitude}`);
-      let $longP = $('<p>').text(`Longitude: ${longitude}`);
-      let $growthP = $('<p>').text(`Growth: ${growth}`);
-      let $detailsUl = $('<div>').append($cityP, [
-        $rankP,
-        $stateP,
-        $popP,
-        $latP,
-        $longP,
-        $growthP
-      ]);
-      $cityDetails.append($detailsUl);
-    } else {
-      $inputDisplay.text(`${inputStr} not found.`);
-    }
-  }
 
   $form.on('submit', async e => {
     e.preventDefault();
@@ -86,6 +38,59 @@ $(async function() {
       $submissionStatus.text('Not a valid number of city!');
     }
   });
+
+  function handleInput(e) {
+    const inputStr = $(e.currentTarget).val();
+    if (isNaN(inputStr)) {
+      handleStringInput(inputStr);
+    } else {
+      handleNumericInput(inputStr);
+    }
+  }
+
+  function handleStringInput(inputStr) {
+    if (cities[inputStr]) {
+      displayCityData(inputStr);
+    } else {
+      $inputDisplay.text(`${inputStr} not found.`);
+    }
+  }
+
+  function handleNumericInput(inputStr) {
+    const inputNum = +inputStr - 1;
+    let city;
+    if (data[inputNum]) {
+      displayCityData(data[inputNum].city);
+    } else {
+      $inputDisplay.text('No city found');
+    }
+  }
+
+  function displayCityData(inputStr) {
+    let { city, growth, latitude, longitude, population, rank, state } = cities[
+      inputStr
+    ];
+    let $cityP = $('<p>').text(`City: ${city}`);
+    let $rankP = $('<p>').text(`Rank: ${rank}`);
+    let $stateP = $('<p>').text(`State: ${state}`);
+    let $popP = $('<p>').text(`Population: ${population}`);
+    let $latP = $('<p>').text(`Latitude: ${latitude}`);
+    let $longP = $('<p>').text(`Longitude: ${longitude}`);
+    let $growthP = $('<p>').text(`Growth: ${growth}`);
+    let $detailsUl = $('<div>').append($cityP, [
+      $rankP,
+      $stateP,
+      $popP,
+      $latP,
+      $longP,
+      $growthP
+    ]);
+    $inputDisplay.append($detailsUl);
+  }
+
+  function clearInputDisplay() {
+    $inputDisplay.empty();
+  }
 
   async function fetchData(url) {
     try {
