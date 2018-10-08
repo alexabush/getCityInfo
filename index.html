@@ -8,11 +8,14 @@
   <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css" /> -->
 </head>
 <body>
-<form id='myForm'>
-  <input type='text' id='myInput' autocomplete="off">
+  <p>Accepts numerical city rank, or city name. Must be exact spelling. Click button or hit return key to submit</p>
+  <form id='myForm'>
+    <input type='text' id='myInput' autocomplete="off">
+    <button>Submit</button>
 </form>
 <div id='inputDisplay'></div>
 <div id='cityDisplay'>
+  <p id='submissionStatus'></p>
   <ul id='cityList'></ul>
 </div>
 
